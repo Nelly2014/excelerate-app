@@ -61,7 +61,7 @@ excelerate-mobile/
 
 1. **Clone the repository:**
 ```bash
-git clone https://github.com/Nelly2014/excelerate-app/
+git clone https://github.com/Nelly2014/excelerate-app
 cd excelerate-mobile
 
 ```
