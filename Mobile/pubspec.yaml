@@ -1,0 +1,33 @@
+name: excelerate_app
+description: "Excelerate Mobile Learning Companion - A Flutter app for discovering and managing experiential learning programs."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Uncomment and add custom fonts, assets, etc. for future releases
+  # assets:
+  #   - assets/images/
+  #   - assets/icons/
+  # 
+  # fonts:
+  #   - family: Poppins
+  #     fonts:
+  #       - asset: assets/fonts/Poppins-Regular.ttf
+  #       - asset: assets/fonts/Poppins-Bold.ttf
+  #         weight: 700
