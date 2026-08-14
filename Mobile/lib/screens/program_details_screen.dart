@@ -38,7 +38,7 @@ class _ProgramDetailsScreenState extends State<ProgramDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('EXCELERATE'),
+        title: AppTheme.wordmark(),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
@@ -148,8 +148,8 @@ class _ProgramDetailsScreenState extends State<ProgramDetailsScreen> {
                         )
                       : Text(
                           widget.program.status == 'In progress'
-                              ? 'Continue Program'
-                              : 'Join Program',
+                              ? 'Continue program'
+                              : 'Join program',
                         ),
                 ),
               ),

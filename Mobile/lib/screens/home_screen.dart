@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('EXCELERATE'),
+        title: AppTheme.wordmark(),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16),

@@ -85,7 +85,7 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('EXCELERATE'),
+        title: AppTheme.wordmark(),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
