@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  // Excelerate brand colors
-  static const Color primaryBlue = Color(0xFF2563EB);
-  static const Color primaryDark = Color(0xFF1E40AF);
+  // Excelerate brand colors (Official branding)
+  static const Color primaryPurple = Color(0xFF8B1B8C);     // Deep Purple
+  static const Color primaryOrange = Color(0xFFF59E0B);     // Orange accent
   static const Color accentGray = Color(0xFFF3F4F6);
   static const Color textDark = Color(0xFF1F2937);
   static const Color textLight = Color(0xFF6B7280);
   static const Color borderColor = Color(0xFFE5E7EB);
   static const Color successGreen = Color(0xFF10B981);
-  static const Color statusInProgress = Color(0xFF3B82F6);
+  static const Color statusInProgress = Color(0xFF8B1B8C);  // Purple for in-progress
 
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: primaryBlue,
+        seedColor: primaryPurple,
         brightness: Brightness.light,
       ),
       scaffoldBackgroundColor: Colors.white,
@@ -69,7 +69,7 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: primaryBlue,
+          backgroundColor: primaryPurple,
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           shape: RoundedRectangleBorder(
@@ -95,7 +95,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: primaryBlue, width: 2),
+          borderSide: const BorderSide(color: primaryPurple, width: 2),
         ),
         hintStyle: const TextStyle(
           color: textLight,
@@ -109,7 +109,7 @@ class AppTheme {
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Colors.white,
-        selectedItemColor: primaryBlue,
+        selectedItemColor: primaryPurple,
         unselectedItemColor: textLight,
         type: BottomNavigationBarType.fixed,
         elevation: 8,

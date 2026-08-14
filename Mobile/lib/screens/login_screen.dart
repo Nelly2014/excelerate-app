@@ -32,7 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
     
     // Simulate login delay
     Future.delayed(const Duration(seconds: 1), () {
-      if (!mounted) return;
       Navigator.of(context).pushReplacementNamed('/home');
     });
   }
@@ -54,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text(
                     'EXCELERATE',
                     style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                          color: AppTheme.primaryBlue,
+                          color: AppTheme.primaryPurple,
                           fontSize: 28,
                           letterSpacing: 1.2,
                         ),
@@ -173,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           'New to Excelerate? Create an account',
                           style:
                               Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: AppTheme.primaryBlue,
+                                    color: AppTheme.primaryPurple,
                                     decoration: TextDecoration.underline,
                                   ),
                           textAlign: TextAlign.center,

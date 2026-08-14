@@ -22,7 +22,6 @@ class _ProgramDetailsScreenState extends State<ProgramDetailsScreen> {
 
     // Simulate enrollment
     Future.delayed(const Duration(seconds: 1), () {
-      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -173,7 +172,7 @@ class _ProgramDetailsScreenState extends State<ProgramDetailsScreen> {
             width: 6,
             height: 6,
             decoration: const BoxDecoration(
-              color: AppTheme.primaryBlue,
+              color: AppTheme.primaryPurple,
               shape: BoxShape.circle,
             ),
           ),

@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   .textTheme
                                   .headlineLarge
                                   ?.copyWith(
-                                    color: AppTheme.primaryBlue,
+                                    color: AppTheme.primaryPurple,
                                     fontSize: 28,
                                   ),
                             ),
@@ -133,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   .textTheme
                                   .headlineLarge
                                   ?.copyWith(
-                                    color: AppTheme.primaryBlue,
+                                    color: AppTheme.primaryPurple,
                                     fontSize: 28,
                                   ),
                             ),
@@ -293,7 +293,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(width: 16),
-             const Icon(Icons.chevron_right),
+            Icon(
+              Icons.chevron_right,
+              color: AppTheme.textLight,
+            ),
           ],
         ),
       ),

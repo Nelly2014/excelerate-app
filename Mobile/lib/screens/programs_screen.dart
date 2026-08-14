@@ -118,7 +118,7 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: TextField(
               controller: _searchController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Search programs',
                 prefixIcon: const Icon(Icons.search),
                 prefixIconColor: AppTheme.textLight,
@@ -142,7 +142,7 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
                         selected: _selectedCategory == category,
                         onSelected: (_) => _onCategorySelected(category),
                         backgroundColor: Colors.white,
-                        selectedColor: AppTheme.primaryBlue,
+                        selectedColor: AppTheme.primaryPurple,
                         labelStyle: TextStyle(
                           color: _selectedCategory == category
                               ? Colors.white
@@ -151,7 +151,7 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
                         ),
                         side: BorderSide(
                           color: _selectedCategory == category
-                              ? AppTheme.primaryBlue
+                              ? AppTheme.primaryPurple
                               : AppTheme.borderColor,
                         ),
                       ),
@@ -247,7 +247,10 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
                     ],
                   ),
                 ),
-                 const Icon(Icons.chevron_right),
+                Icon(
+                  Icons.chevron_right,
+                  color: AppTheme.textLight,
+                ),
               ],
             ),
             const SizedBox(height: 12),
