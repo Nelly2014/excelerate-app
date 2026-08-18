@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
 import '../theme/app_theme.dart';
+import '../services/program_service.dart';
+import '../widgets/state_views.dart';
 
 class ProgramsScreen extends StatefulWidget {
   const ProgramsScreen({Key? key}) : super(key: key);
@@ -12,8 +14,12 @@ class ProgramsScreen extends StatefulWidget {
 class _ProgramsScreenState extends State<ProgramsScreen> {
   final _searchController = TextEditingController();
   String _selectedCategory = 'All';
-  late List<Program> _filteredPrograms;
+  List<Program> _allPrograms = [];
+  List<Program> _filteredPrograms = [];
   int _selectedNavIndex = 1;
+
+  bool _isLoading = true;
+  String? _errorMessage;
 
   final List<String> categories = [
     'All',
@@ -25,8 +31,8 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
   @override
   void initState() {
     super.initState();
-    _filteredPrograms = dummyPrograms;
     _searchController.addListener(_filterPrograms);
+    _loadPrograms();
   }
 
   @override
@@ -35,9 +41,32 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
     super.dispose();
   }
 
+  Future<void> _loadPrograms() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      final programs = await ProgramService.fetchPrograms();
+      if (!mounted) return;
+      setState(() {
+        _allPrograms = programs;
+        _filteredPrograms = programs;
+        _isLoading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _errorMessage = e.toString();
+        _isLoading = false;
+      });
+    }
+  }
+
   void _filterPrograms() {
     setState(() {
-      _filteredPrograms = dummyPrograms.where((program) {
+      _filteredPrograms = _allPrograms.where((program) {
         final matchesSearch = program.title
                 .toLowerCase()
                 .contains(_searchController.text.toLowerCase()) ||
@@ -118,6 +147,7 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: TextField(
               controller: _searchController,
+              enabled: !_isLoading && _errorMessage == null,
               decoration: InputDecoration(
                 hintText: 'Search programs',
                 prefixIcon: const Icon(Icons.search),
@@ -140,7 +170,9 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
                       child: FilterChip(
                         label: Text(category),
                         selected: _selectedCategory == category,
-                        onSelected: (_) => _onCategorySelected(category),
+                        onSelected: (_isLoading || _errorMessage != null)
+                            ? null
+                            : (_) => _onCategorySelected(category),
                         backgroundColor: Colors.white,
                         selectedColor: AppTheme.primaryPurple,
                         labelStyle: TextStyle(
@@ -162,23 +194,34 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
           ),
           const SizedBox(height: 16),
 
-          // Programs List
+          // Programs List / Loading / Error
           Expanded(
-            child: _filteredPrograms.isEmpty
-                ? Center(
-                    child: Text(
-                      'No programs found',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  )
-                : ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: _filteredPrograms.length,
-                    itemBuilder: (context, index) {
-                      final program = _filteredPrograms[index];
-                      return _buildProgramTile(context, program);
-                    },
-                  ),
+            child: _isLoading
+                ? const LoadingView(message: 'Loading programs...')
+                : _errorMessage != null
+                    ? ErrorView(
+                        message: _errorMessage!,
+                        onRetry: _loadPrograms,
+                      )
+                    : _filteredPrograms.isEmpty
+                        ? Center(
+                            child: Text(
+                              'No programs found',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          )
+                        : RefreshIndicator(
+                            color: AppTheme.primaryPink,
+                            onRefresh: _loadPrograms,
+                            child: ListView.builder(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              itemCount: _filteredPrograms.length,
+                              itemBuilder: (context, index) {
+                                final program = _filteredPrograms[index];
+                                return _buildProgramTile(context, program);
+                              },
+                            ),
+                          ),
           ),
         ],
       ),

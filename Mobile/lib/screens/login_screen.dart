@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+import '../services/auth_service.dart';
+import '../widgets/state_views.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -12,6 +14,15 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
+  String? _errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    // Seed a demo account so the app is signable-into out of the box.
+    // Credentials: demo@excelerate.org / Demo1234
+    AuthService.seedDemoAccount();
+  }
 
   @override
   void dispose() {
@@ -21,18 +32,28 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _handleSignIn() {
+    setState(() => _errorMessage = null);
+
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill in all fields')),
-      );
+      setState(() => _errorMessage = 'Please fill in all fields');
       return;
     }
 
     setState(() => _isLoading = true);
-    
+
     // Simulate login delay
     Future.delayed(const Duration(seconds: 1), () {
-      Navigator.of(context).pushReplacementNamed('/home');
+      if (!mounted) return;
+
+      try {
+        AuthService.login(_emailController.text, _passwordController.text);
+        Navigator.of(context).pushReplacementNamed('/home');
+      } on AuthException catch (e) {
+        setState(() {
+          _isLoading = false;
+          _errorMessage = e.message;
+        });
+      }
     });
   }
 
@@ -47,33 +68,25 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 40),
-              // Logo & Header
+              // Brand wordmark (matches live site + rest of the app)
               Column(
                 children: [
-                  Text(
-                    'EXCELERATE',
-                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                          color: AppTheme.primaryPurple,
-                          fontSize: 28,
-                          letterSpacing: 1.2,
-                        ),
-                    textAlign: TextAlign.center,
-                  ),
+                  AppTheme.wordmark(fontSize: 32),
                   const SizedBox(height: 8),
                   Text(
                     'Learning, experience, growth.',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: AppTheme.textLight,
-                    ),
+                        ),
                     textAlign: TextAlign.center,
                   ),
                 ],
               ),
-              const SizedBox(height: 60),
+              const SizedBox(height: 40),
               
               // Login Card
               Container(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(32),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -86,12 +99,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       'Welcome back',
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 4),
                     Text(
                       'Sign in to continue your learning journey.',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 28),
                     
                     // Email Field
                     Column(
@@ -134,7 +147,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     const SizedBox(height: 28),
-                    
+
+                    // Error Message
+                    if (_errorMessage != null) ...[
+                      InlineErrorBanner(message: _errorMessage!),
+                      const SizedBox(height: 16),
+                    ],
+
                     // Sign In Button
                     SizedBox(
                       width: double.infinity,
@@ -160,13 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Center(
                       child: GestureDetector(
                         onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Sign up functionality coming in future updates',
-                              ),
-                            ),
-                          );
+                          Navigator.of(context).pushNamed('/registration');
                         },
                         child: Text(
                           'New to Excelerate? Create an account',

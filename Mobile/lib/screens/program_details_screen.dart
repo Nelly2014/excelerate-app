@@ -38,7 +38,7 @@ class _ProgramDetailsScreenState extends State<ProgramDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: AppTheme.wordmark(),
+        title: const Text('EXCELERATE'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
@@ -148,9 +148,45 @@ class _ProgramDetailsScreenState extends State<ProgramDetailsScreen> {
                         )
                       : Text(
                           widget.program.status == 'In progress'
-                              ? 'Continue program'
-                              : 'Join program',
+                              ? 'Continue Program'
+                              : 'Join Program',
                         ),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // Enrollment Form Button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: AppTheme.primaryPurple,
+                    side: const BorderSide(color: AppTheme.primaryPurple),
+                  ),
+                  onPressed: () => Navigator.of(context).pushNamed(
+                    '/enrollment',
+                    arguments: widget.program,
+                  ),
+                  child: const Text('Enroll Now'),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // Feedback Button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: AppTheme.primaryOrange,
+                    side: const BorderSide(color: AppTheme.primaryOrange),
+                  ),
+                  onPressed: () => Navigator.of(context).pushNamed(
+                    '/feedback',
+                    arguments: widget.program,
+                  ),
+                  child: const Text('Share Feedback'),
                 ),
               ),
               const SizedBox(height: 20),

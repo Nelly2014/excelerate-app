@@ -3,6 +3,9 @@ import 'screens/login_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/programs_screen.dart';
 import 'screens/program_details_screen.dart';
+import 'screens/registration_screen.dart';
+import 'screens/enrollment_screen.dart';
+import 'screens/feedback_screen.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -25,6 +28,15 @@ class ExcelerateApp extends StatelessWidget {
         '/program-details': (context) {
           final args = ModalRoute.of(context)!.settings.arguments as Program?;
           return ProgramDetailsScreen(program: args ?? dummyPrograms[0]);
+        },
+        '/registration': (context) => const RegistrationScreen(),
+        '/enrollment': (context) {
+          final args = ModalRoute.of(context)!.settings.arguments as Program?;
+          return EnrollmentScreen(program: args ?? dummyPrograms[0]);
+        },
+        '/feedback': (context) {
+          final args = ModalRoute.of(context)!.settings.arguments as Program?;
+          return FeedbackScreen(program: args ?? dummyPrograms[0]);
         },
       },
     );
