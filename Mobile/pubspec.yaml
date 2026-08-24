@@ -19,12 +19,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
+  assets:
+    - assets/programs.json
   # Uncomment and add custom fonts, assets, etc. for future releases
-  # assets:
-  #   - assets/images/
-  #   - assets/icons/
-  # 
+  #
   # fonts:
   #   - family: Poppins
   #     fonts:
