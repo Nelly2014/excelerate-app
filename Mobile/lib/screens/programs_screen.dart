@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../main.dart';
+import '../models/program.dart';
 import '../theme/app_theme.dart';
-import '../services/program_service.dart';
+import '../repositories/program_repository.dart';
 import '../widgets/state_views.dart';
 
 class ProgramsScreen extends StatefulWidget {
@@ -12,6 +12,7 @@ class ProgramsScreen extends StatefulWidget {
 }
 
 class _ProgramsScreenState extends State<ProgramsScreen> {
+  final ProgramRepository _programRepository = ProgramRepository();
   final _searchController = TextEditingController();
   String _selectedCategory = 'All';
   List<Program> _allPrograms = [];
@@ -48,7 +49,7 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
     });
 
     try {
-      final programs = await ProgramService.fetchPrograms();
+      final programs = await _programRepository.getPrograms();
       if (!mounted) return;
       setState(() {
         _allPrograms = programs;
@@ -98,14 +99,10 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
         // Stay on programs
         break;
       case 2:
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Progress tracking coming in Week 3')),
-        );
+        Navigator.of(context).pushReplacementNamed('/progress');
         break;
       case 3:
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Profile management coming in future')),
-        );
+        Navigator.of(context).pushReplacementNamed('/profile');
         break;
     }
   }
@@ -148,9 +145,9 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
             child: TextField(
               controller: _searchController,
               enabled: !_isLoading && _errorMessage == null,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Search programs',
-                prefixIcon: const Icon(Icons.search),
+                prefixIcon: Icon(Icons.search),
                 prefixIconColor: AppTheme.textLight,
               ),
             ),
@@ -290,7 +287,7 @@ class _ProgramsScreenState extends State<ProgramsScreen> {
                     ],
                   ),
                 ),
-                Icon(
+                const Icon(
                   Icons.chevron_right,
                   color: AppTheme.textLight,
                 ),

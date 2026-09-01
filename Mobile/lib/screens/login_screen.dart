@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
-import '../services/auth_service.dart';
+import '../providers/session_provider.dart';
 import '../widgets/state_views.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -17,21 +18,13 @@ class _LoginScreenState extends State<LoginScreen> {
   String? _errorMessage;
 
   @override
-  void initState() {
-    super.initState();
-    // Seed a demo account so the app is signable-into out of the box.
-    // Credentials: demo@excelerate.org / Demo1234
-    AuthService.seedDemoAccount();
-  }
-
-  @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  void _handleSignIn() {
+  Future<void> _handleSignIn() async {
     setState(() => _errorMessage = null);
 
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
@@ -41,20 +34,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
     setState(() => _isLoading = true);
 
-    // Simulate login delay
-    Future.delayed(const Duration(seconds: 1), () {
+    try {
+      await context.read<SessionProvider>().login(
+        _emailController.text.trim(),
+        _passwordController.text,
+      );
       if (!mounted) return;
-
-      try {
-        AuthService.login(_emailController.text, _passwordController.text);
-        Navigator.of(context).pushReplacementNamed('/home');
-      } on AuthException catch (e) {
-        setState(() {
-          _isLoading = false;
-          _errorMessage = e.message;
-        });
-      }
-    });
+      Navigator.of(context).pushReplacementNamed('/home');
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+        _errorMessage = e.toString();
+      });
+    }
   }
 
   @override
