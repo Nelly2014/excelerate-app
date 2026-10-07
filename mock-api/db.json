@@ -13,6 +13,13 @@
       "name": "zaim",
       "role": "LEARNER",
       "id": 2
+    },
+    {
+      "email": "neliswasililo2@gmail.com",
+      "password": "2014@Unako",
+      "name": "neliswasililo2",
+      "role": "LEARNER",
+      "id": 3
     }
   ],
   "programs": [
@@ -113,6 +120,15 @@
       "interest": "To learn about it",
       "status": "ENROLLED",
       "id": 2
+    },
+    {
+      "userId": 3,
+      "programId": 3,
+      "name": "nelly",
+      "email": "neliswasililo2@gmail.com",
+      "interest": "adsssssnsnaj a",
+      "status": "ENROLLED",
+      "id": 3
     }
   ],
   "feedback": [
